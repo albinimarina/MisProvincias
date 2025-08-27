@@ -17,7 +17,7 @@ public partial class Provincia
 
     public DateOnly? FechaBaja { get; set; }
 
-    public virtual Animale IdAnimalNavigation { get; set; } = null!;
+    public virtual Animale ObAnimal  { get; set; } = null!;
 
-    public virtual Planta IdPlantaNavigation { get; set; } = null!;
+    public virtual Planta ObPlanta { get; set; } = null!;
 }
