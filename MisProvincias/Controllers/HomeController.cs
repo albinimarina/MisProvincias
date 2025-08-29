@@ -16,6 +16,7 @@ namespace MisProvincias.Controllers
         }
         public IActionResult Index()
         {
+
             List<Provincia> lista = _RpContext.Provincias.ToList();
             return View(lista);
         }
