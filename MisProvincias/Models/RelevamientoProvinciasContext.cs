@@ -15,7 +15,7 @@ public partial class RelevamientoProvinciasContext : DbContext
     {
     }
 
-    public virtual DbSet<Animale> Animales { get; set; }
+    public virtual DbSet<Animal> Animales { get; set; }
 
     public virtual DbSet<Planta> Plantas { get; set; }
 
@@ -23,7 +23,7 @@ public partial class RelevamientoProvinciasContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Animale>(entity =>
+        modelBuilder.Entity<Animal>(entity =>
         {
             entity.HasKey(e => e.IdAnimal).HasName("PK__Animales__951092F09A70F96E");
 

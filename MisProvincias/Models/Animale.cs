@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MisProvincias.Models;
 
-public partial class Animale
+public partial class Animal
 {
     public int IdAnimal { get; set; }
 
