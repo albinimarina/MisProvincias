@@ -1,0 +1,71 @@
+﻿@model MisProvincias.Models.ViewModelss.ProvinciaVM 
+@{
+    ViewData["Title"] = "Provincia_Detalle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model.ObProvincia.IdProvincia == 0)
+{
+
+     <h1>Crear Provincia</h1>
+} 
+else
+    {
+     <h1>Editar Provincia</h1>
+  }
+
+  <div class="row">
+     <div class="col-sm-4">
+
+
+         <form asp-action="Provincia_Detalle" asp-controller="Home" method="post">
+            <input type="hidden" asp-for="ObProvincia.IdProvincia"  />
+
+            <div class="mb-3">
+                <label asp-for="ObProvincia.Nombre" class="form-label"></label>
+                <input asp-for="ObProvincia.Nombre" class="form-control form-control-sm" />
+                <span asp-validation-for="ObProvincia.Nombre" class="text-danger"></span>
+            </div>
+
+
+            <div class="mb-2">
+                <label class="form-label" asp-for="ObProvincia.Capital">Capital</label>
+                <input class="form-control form-control-sm" asp-for="ObProvincia.Capital" type="text" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" asp-for="ObProvincia.IdAnimal">Animal</label>
+                <select class="form-select form-select-sm" asp-for="ObProvincia.IdAnimal" asp-items="@Model.ObListaAnimales">
+                    <option selected disabled>--SELECCIONAR--</option>
+                </select>
+
+                <div class="mb-3">
+                    <label class="form-label" asp-for="ObProvincia.IdPlanta">Planta</label>
+                    <select class="form-select form-select-sm" asp-for="ObProvincia.IdPlanta" asp-items="@Model.ObListaPlantas">
+                        <option selected disabled>--SELECCIONAR--</option>
+                    </select>
+                </div>
+
+
+                </div class="mb-2">
+
+                    @if (Model.ObProvincia.IdProvincia == 0)
+                    {
+                        <button class="btn btn-primary btn-sm w-25" type="submit">Cargar</button>
+                        
+                    }
+                    else
+                    {
+                        <button class ="btn btn-primary btn-sm w-25" type="submit">Actualizar</button>
+
+                    }
+
+                    <a class="btn btn-dark btn-sm" asp-action="Index" asp-controller="Home">Volver</a>
+
+
+
+
+         </form>
+      </div>
+  </div> 
+

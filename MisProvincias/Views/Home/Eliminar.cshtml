@@ -1,0 +1,10 @@
+﻿@model MisProvincias.Models.Provincia
+
+<h2>¿Estás seguro que querés dar de baja la provincia @Model.Nombre?</h2>
+
+<form asp-action="EliminarConfirmado" method="post">
+    <input type="hidden" asp-for="IdProvincia" />
+    <button type="submit" class="btn btn-danger">Sí, dar de baja</button>
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+</form>
+

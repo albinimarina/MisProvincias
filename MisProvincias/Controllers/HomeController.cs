@@ -26,43 +26,97 @@ namespace MisProvincias.Controllers
             return View(lista);
         }
         [HttpGet]
-        public IActionResult Provincia_Detalle()
+        public IActionResult Provincia_Detalle(int id = 0)
         {
-            ProvinciaVM oProvinciaVM = new ProvinciaVM()
+            var vm = new ProvinciaVM();
+
+            if (id == 0) // Crear nueva provincia
             {
-                ObProvincia = new Provincia(),
-                ObListaProvincia = _RpContext.Animales.Select(c => new SelectListItem()
+                vm.ObProvincia = new Provincia();
+            }
+            else // Editar provincia existente
+            {
+                vm.ObProvincia = _RpContext.Provincias.FirstOrDefault(p => p.IdProvincia == id);
+
+                if (vm.ObProvincia == null)
+                    return NotFound();
+            }
+
+            // Llenar desplegables
+            vm.ObListaAnimales = _RpContext.Animales
+                .Select(c => new SelectListItem
                 {
                     Text = c.Nombre,
                     Value = c.IdAnimal.ToString()
-                }).ToList()
-            };
+                }).ToList();
 
-            return View(oProvinciaVM);
+            vm.ObListaPlantas = _RpContext.Plantas
+                .Select(c => new SelectListItem
+                {
+                    Text = c.Nombre,
+                    Value = c.IdPlanta.ToString()
+                }).ToList();
+
+            return View(vm);
         }
 
         [HttpPost]
-        public IActionResult Provincia_Detalle()
+        public IActionResult Provincia_Detalle(ProvinciaVM ObProvinciaVM)
         {
-            ProvinciaVM oProvinciaVM = new ProvinciaVM()
+            if (ObProvinciaVM.ObProvincia.IdProvincia == 0)
             {
-                ObProvincia = new Provincia(),
-                ObListaProvincia = _RpContext.Animales.Select(c => new SelectListItem()
+                // CREAR
+                _RpContext.Provincias.Add(ObProvinciaVM.ObProvincia);
+            }
+            else
+            {
+                // ACTUALIZAR
+                var provinciaBD = _RpContext.Provincias
+                    .FirstOrDefault(p => p.IdProvincia == ObProvinciaVM.ObProvincia.IdProvincia);
+
+                if (provinciaBD != null)
                 {
-                    Text = c.Nombre,
-                    Value = c.IdAnimal.ToString()
-                }).ToList()
-            };
+                    provinciaBD.Nombre = ObProvinciaVM.ObProvincia.Nombre;
+                    provinciaBD.Capital = ObProvinciaVM.ObProvincia.Capital;
+                    provinciaBD.IdAnimal = ObProvinciaVM.ObProvincia.IdAnimal;
+                    provinciaBD.IdPlanta = ObProvinciaVM.ObProvincia.IdPlanta;
 
-            return View(oProvinciaVM);
+                    _RpContext.Provincias.Update(provinciaBD);
+                }
+            }
 
-
-
-
-
+            _RpContext.SaveChanges();
+            return RedirectToAction("Index", "Home");
         }
-}
+       
+        [HttpGet]
+        public IActionResult Eliminar(int id)
+        {
+            var provincia = _RpContext.Provincias.FirstOrDefault(p => p.IdProvincia == id);
+
+            if (provincia == null)
+                return NotFound();
+
+            return View(provincia); // vista con confirmación 
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EliminarConfirmado(int IdProvincia)
+        {
+            var provincia = _RpContext.Provincias.FirstOrDefault(p => p.IdProvincia == IdProvincia);
+
+            if (provincia == null)
+                return NotFound();
+
+            provincia.FechaBaja = DateTime.Now;
+            _RpContext.Update(provincia);
+            _RpContext.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
 
 
 
 
+    }
+} 
