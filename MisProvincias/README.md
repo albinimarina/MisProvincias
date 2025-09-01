@@ -57,29 +57,32 @@ ALTER TABLE [dbo].[Provincias]
 🌱 Datos iniciales
 -- Animales
 INSERT INTO Animales (Nombre) VALUES 
-('Yacaré overo'),
-('Puma'),
-('Guanaco'),
 ('Carpincho'),
-('Ñandú'),
-('Zorro colorado'),
-('Tatú carreta'),
-('Jaguar'),
-('Mono carayá'),
-('Pecarí de collar');
+('Guanaco'),
+('Jaguareté'),
+('Cóndor'),
+('Hornero'),
+('Puma'),
+('Oso'),
+('Ballena'),
+('Leopardo'),
+('Pingüino')
+
 
 -- Plantas
 INSERT INTO Plantas (Nombre) VALUES 
 ('Ceibo'),
-('Jacarandá'),
-('Palo borracho'),
-('Ombú'),
-('Espinillo'),
+('Pampas Grass'),
 ('Algarrobo blanco'),
+('Jarilla'),
+('Ombú'),
+('El cardón'),
 ('Lapacho rosado'),
-('Sauce criollo'),
-('Chañar'),
-('Tala');
+('Yerba mate'),
+('Passiflora edulis'),
+('Opuntia sulphurea'),
+('Tala')
+
 
 🔎 Ejemplo de consulta
 SELECT 
