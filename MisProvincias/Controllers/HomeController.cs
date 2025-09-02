@@ -90,7 +90,7 @@ namespace MisProvincias.Controllers
         }
        
         [HttpGet]
-        public IActionResult Eliminar(int id)
+        public IActionResult Confirmacion(int id)
         {
             var provincia = _RpContext.Provincias.FirstOrDefault(p => p.IdProvincia == id);
 

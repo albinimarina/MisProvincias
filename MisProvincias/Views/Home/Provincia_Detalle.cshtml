@@ -4,79 +4,91 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@if (Model.ObProvincia.IdProvincia == 0)
-{
-    <h1 class="text-center">Crear Provincia</h1>
-}
-else
-{
-    <h1 class="text-center">Editar Provincia</h1>
-}
-
-<div class="row justify-content-center">
-    <div class="col-sm-6">
-        <form asp-action="Provincia_Detalle" asp-controller="Home" method="post">
-            @Html.AntiForgeryToken()
-            <input type="hidden" asp-for="ObProvincia.IdProvincia" />
-
-            <!-- Provincia -->
-            <div class="mb-3 text-center">
-                <label asp-for="ObProvincia.Nombre" class="form-label d-block">
-                    Provincia <span class="text-danger">*</span>
-                </label>
-                <input asp-for="ObProvincia.Nombre" class="form-control form-control-sm w-75 mx-auto" />
-                <span asp-validation-for="ObProvincia.Nombre" class="text-danger"></span>
-            </div>
-
-            <!-- Capital -->
-            <div class="mb-3 text-center">
-                <label asp-for="ObProvincia.Capital" class="form-label d-block">
-                    Capital <span class="text-danger">*</span>
-                </label>
-                <input asp-for="ObProvincia.Capital" type="text" class="form-control form-control-sm w-75 mx-auto" />
-                <span asp-validation-for="ObProvincia.Capital" class="text-danger"></span>
-            </div>
-
-            <!-- Animal -->
-            <div class="mb-3 text-center">
-                <label asp-for="ObProvincia.IdAnimal" class="form-label d-block">
-                    Animal <span class="text-danger">*</span>
-                </label>
-                <select asp-for="ObProvincia.IdAnimal"
-                        asp-items="@Model.ObListaAnimales"
-                        class="form-select form-select-sm w-75 mx-auto">
-                    <option value="">--SELECCIONAR--</option>
-                </select>
-                <span asp-validation-for="ObProvincia.IdAnimal" class="text-danger"></span>
-            </div>
-
-            <!-- Planta -->
-            <div class="mb-3 text-center">
-                <label asp-for="ObProvincia.IdPlanta" class="form-label d-block">
-                    Planta <span class="text-danger">*</span>
-                </label>
-                <select asp-for="ObProvincia.IdPlanta"
-                        asp-items="@Model.ObListaPlantas"
-                        class="form-select form-select-sm w-75 mx-auto">
-                    <option value="">--SELECCIONAR--</option>
-                </select>
-                <span asp-validation-for="ObProvincia.IdPlanta" class="text-danger"></span>
-            </div>
-
-            <!-- Botones -->
-            <div class="text-center mt-3">
+<div class="row justify-content-center mt-4">
+    <div class="col-sm-8 col-md-6">
+        <div class="card shadow-lg border-0 rounded-3">
+            <div class="card-header bg-primary text-white text-center rounded-top">
                 @if (Model.ObProvincia.IdProvincia == 0)
                 {
-                    <button class="btn btn-primary btn-sm w-25" type="submit">Cargar</button> 
+                    <h3 class="mb-0"><i class="bi bi-plus-circle"></i> Crear Provincia</h3>
                 }
                 else
                 {
-                    <button class="btn btn-primary btn-sm w-25" type="submit">Actualizar</button> 
+                    <h3 class="mb-0"><i class="bi bi-pencil-square"></i> Editar Provincia</h3>
                 }
-
-                <a class="btn btn-dark btn-sm ms-2" asp-action="Index" asp-controller="Home">Volver</a>
             </div>
-        </form>
+
+            <div class="card-body">
+                <form asp-action="Provincia_Detalle" asp-controller="Home" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="ObProvincia.IdProvincia" />
+
+                    <!-- Provincia -->
+                    <div class="mb-3">
+                        <label asp-for="ObProvincia.Nombre" class="form-label">
+                            Provincia <span class="text-danger">*</span>
+                        </label>
+                        <input asp-for="ObProvincia.Nombre" class="form-control" />
+                        <span asp-validation-for="ObProvincia.Nombre" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Capital -->
+                    <div class="mb-3">
+                        <label asp-for="ObProvincia.Capital" class="form-label">
+                            Capital <span class="text-danger">*</span>
+                        </label>
+                        <input asp-for="ObProvincia.Capital" type="text" class="form-control" />
+                        <span asp-validation-for="ObProvincia.Capital" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Animal -->
+                    <div class="mb-3">
+                        <label asp-for="ObProvincia.IdAnimal" class="form-label">
+                            Animal <span class="text-danger">*</span>
+                        </label>
+                        <select asp-for="ObProvincia.IdAnimal"
+                                asp-items="@Model.ObListaAnimales"
+                                class="form-select">
+                            <option value="">--SELECCIONAR--</option>
+                        </select>
+                        <span asp-validation-for="ObProvincia.IdAnimal" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Planta -->
+                    <div class="mb-3">
+                        <label asp-for="ObProvincia.IdPlanta" class="form-label">
+                            Planta <span class="text-danger">*</span>
+                        </label>
+                        <select asp-for="ObProvincia.IdPlanta"
+                                asp-items="@Model.ObListaPlantas"
+                                class="form-select">
+                            <option value="">--SELECCIONAR--</option>
+                        </select>
+                        <span asp-validation-for="ObProvincia.IdPlanta" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="text-center mt-4">
+                        @if (Model.ObProvincia.IdProvincia == 0)
+                        {
+                            <button class="btn btn-success w-50 shadow-sm" type="submit">
+                                <i class="bi bi-check-circle"></i> Cargar
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-success w-50 shadow-sm" type="submit">
+                                <i class="bi bi-arrow-repeat"></i> Actualizar
+                            </button>
+                        }
+
+                        <a class="btn btn-secondary ms-2 w-25 shadow-sm" asp-action="Index" asp-controller="Home">
+                            <i class="bi bi-arrow-left-circle"></i> Volver
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
