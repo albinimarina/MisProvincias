@@ -1,8 +1,10 @@
 ﻿@model MisProvincias.Models.Provincia
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
 
 @{
     ViewData["Title"] = "Eliminar Provincia";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var tokens = Antiforgery.GetAndStoreTokens(Context);
 }
 
 <div class="row justify-content-center mt-5">
@@ -14,16 +16,29 @@
                     <span class="text-danger fw-semibold">@Model.Nombre</span>?
                 </h4>
 
-                <form asp-action="EliminarConfirmado" method="post" class="mt-3">
-                    <input type="hidden" asp-for="IdProvincia" />
-                    <button type="submit" class="btn btn-outline-danger me-2 px-4">
-                        Sí, dar de baja
-                    </button>
-                    <a asp-action="Index" class="btn btn-outline-secondary px-4">
-                        Volver
-                    </a>
-                </form>
+                <button id="btnConfirmar" class="btn btn-outline-danger me-2 px-4">
+                    Sí, dar de baja
+                </button>
+                <a asp-action="Index" class="btn btn-outline-secondary px-4">
+                    Volver
+                </a>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById("btnConfirmar").addEventListener("click", async () => {
+        const response = await fetch(`/Home/EliminarProvincia/@Model.IdProvincia`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "RequestVerificationToken": "@tokens.RequestToken"
+            }
+        });
+
+        if (response.ok) {
+            window.location.href = "/Home/Index"; // solo redirige
+        }
+    });
+</script>

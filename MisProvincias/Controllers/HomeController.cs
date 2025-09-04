@@ -1,9 +1,9 @@
+using Microsoft.AspNetCore.Mvc; 
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using MisProvincias.Models;
 using MisProvincias.Models.ViewModelss;
+using System.Linq;
 
 namespace MisProvincias.Controllers
 {
@@ -11,20 +11,23 @@ namespace MisProvincias.Controllers
     {
         private readonly RelevamientoProvinciasContext _RpContext;
 
-        public HomeController(RelevamientoProvinciasContext context)
+        public HomeController(RelevamientoProvinciasContext Context)
         {
-            _RpContext = context;
+            _RpContext = Context;
         }
+
+        // Página principal con el listado de provincias
         public IActionResult Index()
         {
-
-            List<Provincia> lista = _RpContext.Provincias
+            var lista = _RpContext.Provincias
                 .Include(p => p.ObAnimal)
                 .Include(p => p.ObPlanta)
                 .ToList();
 
             return View(lista);
         }
+
+        // Página para crear nueva provincia
         [HttpGet]
         public IActionResult Provincia_Detalle(int id = 0)
         {
@@ -60,35 +63,48 @@ namespace MisProvincias.Controllers
             return View(vm);
         }
 
+        // POST: Crear nueva provincia
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Provincia_Detalle(ProvinciaVM ObProvinciaVM)
         {
             if (ObProvinciaVM.ObProvincia.IdProvincia == 0)
             {
-                // CREAR
                 _RpContext.Provincias.Add(ObProvinciaVM.ObProvincia);
+                _RpContext.SaveChanges();
             }
-            else
+
+            return RedirectToAction("Index");
+        }
+
+        // PUT: Actualizar provincia existente
+        [HttpPut]
+        [ValidateAntiForgeryToken]
+        public IActionResult ActualizarProvincia(ProvinciaVM ObProvinciaVM)
+        {
+            if (ObProvinciaVM.ObProvincia.IdProvincia > 0)
             {
-                // ACTUALIZAR
                 var provinciaBD = _RpContext.Provincias
                     .FirstOrDefault(p => p.IdProvincia == ObProvinciaVM.ObProvincia.IdProvincia);
 
-                if (provinciaBD != null)
-                {
-                    provinciaBD.Nombre = ObProvinciaVM.ObProvincia.Nombre;
-                    provinciaBD.Capital = ObProvinciaVM.ObProvincia.Capital;
-                    provinciaBD.IdAnimal = ObProvinciaVM.ObProvincia.IdAnimal;
-                    provinciaBD.IdPlanta = ObProvinciaVM.ObProvincia.IdPlanta;
+                if (provinciaBD == null)
+                    return NotFound();
 
-                    _RpContext.Provincias.Update(provinciaBD);
-                }
+                provinciaBD.Nombre = ObProvinciaVM.ObProvincia.Nombre;
+                provinciaBD.Capital = ObProvinciaVM.ObProvincia.Capital;
+                provinciaBD.IdAnimal = ObProvinciaVM.ObProvincia.IdAnimal;
+                provinciaBD.IdPlanta = ObProvinciaVM.ObProvincia.IdPlanta;
+
+                _RpContext.Provincias.Update(provinciaBD);
+                _RpContext.SaveChanges();
+
+                return Ok("Index");
             }
 
-            _RpContext.SaveChanges();
-            return RedirectToAction("Index", "Home");
+            return Ok();
         }
-       
+
+        //Confirmación para eliminar (borrado lógico)
         [HttpGet]
         public IActionResult Confirmacion(int id)
         {
@@ -97,26 +113,24 @@ namespace MisProvincias.Controllers
             if (provincia == null)
                 return NotFound();
 
-            return View(provincia); // vista con confirmación 
+            return View(provincia);
         }
-        [HttpPost]
+
+        //Eliminar (borrado lógico)
+        [HttpPut]
         [ValidateAntiForgeryToken]
-        public IActionResult EliminarConfirmado(int IdProvincia)
+        public IActionResult EliminarProvincia(int id)
         {
-            var provincia = _RpContext.Provincias.FirstOrDefault(p => p.IdProvincia == IdProvincia);
+            var provincia = _RpContext.Provincias.FirstOrDefault(p => p.IdProvincia == id);
 
             if (provincia == null)
                 return NotFound();
 
-            provincia.FechaBaja = DateTime.Now;
-            _RpContext.Update(provincia);
+            provincia.FechaBaja = DateTime.Now; 
+            _RpContext.Provincias.Update(provincia);
             _RpContext.SaveChanges();
 
-            return RedirectToAction("Index");
+            return Ok();
         }
-
-
-
-
     }
-} 
+}
