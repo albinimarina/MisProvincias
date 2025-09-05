@@ -14,11 +14,11 @@ namespace MisProvincias.Models
         [Required(ErrorMessage = "La capital es obligatoria")]
         public string Capital { get; set; } = null!;
 
-        [Required(ErrorMessage = "Debe seleccionar un animal")]
-        public int IdAnimal { get; set; }
-
-        [Required(ErrorMessage = "Debe seleccionar una planta")]
+        [Required(ErrorMessage = "Debe seleccionar una planta.")]
         public int IdPlanta { get; set; }
+
+        [Required(ErrorMessage = "Debe seleccionar un animal.")]
+        public int IdAnimal { get; set; }
 
         public DateTime? FechaBaja { get; set; }
 

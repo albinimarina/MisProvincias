@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc; 
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MisProvincias.Models;
@@ -126,7 +126,7 @@ namespace MisProvincias.Controllers
             if (provincia == null)
                 return NotFound();
 
-            provincia.FechaBaja = DateTime.Now; 
+            provincia.FechaBaja = DateTime.Now;
             _RpContext.Provincias.Update(provincia);
             _RpContext.SaveChanges();
 

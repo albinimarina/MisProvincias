@@ -102,5 +102,4 @@ Los campos IdAnimal y IdPlanta en Provincias deben existir previamente en sus ta
 
 El campo FechaBaja permite manejar bajas lógicas de provincias (en vez de borrarlas físicamente).
 
-📅 Fecha: 31/08/2025
 ✍️ Autor: Marina Albini

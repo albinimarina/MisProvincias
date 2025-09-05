@@ -19,7 +19,7 @@
             </div>
 
             <div class="card-body">
-               <form id="formProvincia" method="post">
+                <form id="formProvincia" method="post">
                     @Html.AntiForgeryToken()
                     <input type="hidden" asp-for="ObProvincia.IdProvincia" />
 
@@ -40,8 +40,6 @@
                         <input asp-for="ObProvincia.Capital" type="text" class="form-control" />
                         <span asp-validation-for="ObProvincia.Capital" class="text-danger small"></span>
                     </div>
-
-                    <!-- Animal -->
                     <div class="mb-3">
                         <label asp-for="ObProvincia.IdAnimal" class="form-label">
                             Animal <span class="text-danger">*</span>
@@ -49,7 +47,10 @@
                         <select asp-for="ObProvincia.IdAnimal"
                                 asp-items="@Model.ObListaAnimales"
                                 class="form-select">
-                            <option value="">--SELECCIONAR--</option>
+                            @if (Model.ObProvincia.IdProvincia == 0)  //Solo aparace para CREAR
+                            {
+                                <option value="">--SELECCIONAR--</option>
+                            }
                         </select>
                         <span asp-validation-for="ObProvincia.IdAnimal" class="text-danger small"></span>
                     </div>
@@ -62,10 +63,14 @@
                         <select asp-for="ObProvincia.IdPlanta"
                                 asp-items="@Model.ObListaPlantas"
                                 class="form-select">
-                            <option value="">--SELECCIONAR--</option>
+                            @if (Model.ObProvincia.IdProvincia == 0)   // Solo aparace para CREAR
+                            {
+                                <option value="">--SELECCIONAR--</option>
+                            }
                         </select>
                         <span asp-validation-for="ObProvincia.IdPlanta" class="text-danger small"></span>
                     </div>
+                    
 
                     <!-- Botones -->
                     <div class="text-center mt-4">
@@ -76,11 +81,11 @@
                             </button>
                         }
                         else
-                        { 
+                        {
                             <button type="button" id="btnActualizar" class="btn btn-success w-50 shadow-sm">
                                 <i class="bi bi-arrow-repeat"></i> Actualizar
                             </button>
-                           }
+                        }
 
                         <a class="btn btn-secondary ms-2 w-25 shadow-sm" asp-action="Index" asp-controller="Home">
                             <i class="bi bi-arrow-left-circle"></i> Volver
@@ -95,7 +100,7 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
- <script>
+    <script>
         $(document).ready(function () {
             $('#btnActualizar').click(function (e) {
                 e.preventDefault();
@@ -105,7 +110,7 @@
                 const formData = $('#formProvincia').serialize();
 
                 $.ajax({
-                    url: '@Url.Action("ActualizarProvincia", "Home")', //
+                    url: '@Url.Action("ActualizarProvincia", "Home")',
                     type: 'PUT',
                     data: formData,
                     headers: {
@@ -122,5 +127,4 @@
         });
     </script>
 }
-
 
